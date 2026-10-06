@@ -395,6 +395,12 @@ a.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(-
 .footer a:hover { color: var(--white); }
 .footer__brand { display: flex; align-items: center; gap: 0.8rem; }
 .footer__brand img { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
+.footer__credit {
+  padding-block: 0.9rem 1.1rem; border-top: 1px solid rgba(147,197,253,.12);
+  text-align: center; font-size: 0.78rem; letter-spacing: 0.04em; color: rgba(147,197,253,.7);
+}
+.footer__credit strong { color: var(--ice-100); font-weight: 700; letter-spacing: 0.06em; }
+.footer__credit sup { font-size: 0.6em; font-weight: 600; margin-left: 1px; }
 
 /* ---------- Toast ---------- */
 .toast {
