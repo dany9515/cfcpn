@@ -41,7 +41,7 @@ const animations = [
   [".split__text > *", 0.12],
   [".contact__info > *", 0.12],
   [".schedule__item", 0.15],
-  [".sede", 0.1],
+  [".sede, .sedes__label", 0.1],
   [".photo, .video, .contact__map", 0],
   [".radio", 0],
   [".give__card", 0],

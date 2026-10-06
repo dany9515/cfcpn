@@ -23,7 +23,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+/* Al saltar desde el menú, parte del margen de arriba de la sección queda debajo del menú (72px), así el título no queda tan abajo */
+html { scroll-behavior: smooth; scroll-padding-top: 30px; }
 
 body {
   margin: 0;
@@ -234,6 +235,10 @@ p { margin: 0 0 1em; }
 
 /* ---------- Secciones ---------- */
 .section { padding-block: clamp(4.5rem, 9vw, 7rem); }
+/* Contacto es la última sección: ocupa al menos toda la pantalla para que el salto desde el menú llegue hasta ella */
+/* La portada no tiene ese margen: debe quedar justo debajo del menú */
+#inicio { scroll-margin-top: 42px; }
+#contacto { display: grid; align-content: center; min-height: calc(100svh - 30px); }
 .section--tint { background: var(--ice-50); }
 .section--dark { background: linear-gradient(160deg, var(--navy-950), var(--navy-800)); color: var(--ice-100); }
 .section--dark h2 { color: var(--white); }
@@ -254,7 +259,24 @@ p { margin: 0 0 1em; }
 .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 45% center; }
 
 /* ---------- Sedes ---------- */
-.sedes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.sedes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+.sedes__label {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: 1.6rem; margin: 3.2rem 0 1rem;
+  font-family: var(--font-title); font-size: clamp(1.9rem, 4.2vw, 3rem); font-weight: 700; line-height: 1.15; color: var(--navy-900);
+  text-align: center; justify-content: center;
+}
+/* Líneas finas a los costados de la frase (en celular se ocultan) */
+.sedes__label::before, .sedes__label::after {
+  content: ""; flex: 1; max-width: 200px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-500));
+}
+.sedes__label::after { background: linear-gradient(270deg, transparent, var(--blue-500)); }
+.sedes__label em { font-style: italic; color: var(--blue-600); }
+@media (max-width: 640px) {
+  .sedes__label { gap: 0; margin-top: 2.4rem; }
+  .sedes__label::before, .sedes__label::after { display: none; }
+  .sedes__label em { display: block; }
+}
 .sede {
   position: relative; display: grid; align-content: start; gap: 0.15rem; padding: 1.6rem 1.6rem 1.4rem 1.6rem;
   background: var(--white); border: 1px solid var(--ice-100); border-radius: var(--radius); overflow: hidden;
@@ -268,7 +290,7 @@ p { margin: 0 0 1em; }
   content: ""; width: 34px; height: 34px; margin-bottom: 0.9rem; border-radius: 10px;
   background: var(--ice-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231d5fd1'%3E%3Cpath d='M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z'/%3E%3C/svg%3E") center / 18px no-repeat;
 }
-.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(--blue-300); }
+a.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(--blue-300); }
 .sede__city { font-family: var(--font-title); font-size: 1.35rem; font-weight: 700; color: var(--navy-900); line-height: 1.2; }
 .sede__prov { color: var(--muted); font-size: 0.92rem; }
 .sede__link { margin-top: 0.9rem; font-size: 0.82rem; font-weight: 700; color: var(--blue-600); transition: letter-spacing 0.3s var(--ease); }
@@ -288,16 +310,6 @@ p { margin: 0 0 1em; }
 .sede--central .sede__city { font-size: clamp(2rem, 4vw, 2.8rem); color: var(--white); }
 .sede--central .sede__prov { color: var(--sky-200); font-size: 1.05rem; }
 .sede--central .sede__link { color: var(--white); }
-
-.sede--intl {
-  grid-column: 1 / -1; grid-template-columns: auto auto 1fr auto; align-items: center; column-gap: 1.2rem;
-  padding: 1.4rem 1.8rem; background: linear-gradient(120deg, var(--white), var(--ice-100)); border-color: var(--blue-300);
-}
-.sede--intl::before { margin: 0; grid-row: 1 / 3; }
-.sede--intl .sede__tag { grid-column: 2; grid-row: 1 / 3; margin: 0; background: var(--blue-600); color: var(--white); }
-.sede--intl .sede__city { grid-column: 3; grid-row: 1; }
-.sede--intl .sede__prov { grid-column: 3; grid-row: 2; }
-.sede--intl .sede__link { grid-column: 4; grid-row: 1 / 3; margin: 0; }
 
 /* ---------- Video ---------- */
 .video { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); background: var(--navy-950); }
@@ -465,12 +477,6 @@ p { margin: 0 0 1em; }
   .sede { padding: 1.2rem; }
   .sede__city { font-size: 1.15rem; }
   .sede--central { padding: 5.4rem 1.6rem 1.6rem; min-height: 0; }
-  .sede--intl { grid-template-columns: auto 1fr; row-gap: 0.15rem; padding: 1.2rem; }
-  .sede--intl::before { grid-row: 1 / 3; }
-  .sede--intl .sede__tag { grid-column: 2; grid-row: 1; justify-self: start; margin-bottom: 0.4rem; }
-  .sede--intl .sede__city { grid-column: 2; grid-row: 2; }
-  .sede--intl .sede__prov { grid-column: 2; grid-row: 3; }
-  .sede--intl .sede__link { grid-column: 2; grid-row: 4; margin-top: 0.7rem; }
   .sede--central::before { top: 1.6rem; left: 1.6rem; }
   .topbar__inner { justify-content: center; row-gap: 0.5rem; padding-block: 0.6rem; }
   .topbar__address { font-size: 0.85rem; }
