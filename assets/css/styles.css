@@ -357,6 +357,8 @@ p { margin: 0 0 1em; }
 
 /* ---------- Formulario ---------- */
 .form { display: grid; gap: 1.1rem; background: var(--ice-50); padding: 2.2rem; border-radius: var(--radius); border: 1px solid var(--ice-100); }
+.form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form button:disabled { opacity: .65; cursor: wait; }
 .form label { display: grid; gap: 0.4rem; font-weight: 600; font-size: 0.9rem; color: var(--navy-900); }
 .form input, .form select, .form textarea {
   font: inherit; font-weight: 400; padding: 0.8rem 1rem; border-radius: 10px;

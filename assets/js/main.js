@@ -1,5 +1,5 @@
-// Número de WhatsApp de la iglesia: código de país + área + número, sin "+" ni espacios
-const WHATSAPP = "5491100000000";
+// Clave de Web3Forms: los pedidos de oración llegan a cfcpnoracion@gmail.com
+const PRAYER_FORM_KEY = "fb337859-a971-4894-a4b3-ddd0065aedb3";
 
 const header = document.getElementById("header");
 const nav = document.getElementById("nav");
@@ -276,11 +276,31 @@ document.querySelectorAll(".copy").forEach((el) => {
   });
 });
 
-document.getElementById("prayerForm").addEventListener("submit", (event) => {
+document.getElementById("prayerForm").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const data = new FormData(event.target);
-  const text = `*${data.get("tipo")}*\nNombre: ${data.get("nombre")}\n\n${data.get("mensaje")}`;
-  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-  event.target.reset();
-  showToast("¡Gracias! Abrimos WhatsApp para enviar tu mensaje");
+  const form = event.target;
+  const button = form.querySelector("button[type=submit]");
+  const data = new FormData(form);
+  data.append("access_key", PRAYER_FORM_KEY);
+  data.append("subject", `${data.get("tipo")} de ${data.get("nombre")} (sitio web)`);
+  data.append("from_name", "Sitio web CFCPN");
+
+  button.disabled = true;
+  button.textContent = "Enviando...";
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: data,
+    });
+    const result = await res.json();
+    if (!res.ok || String(result.success) !== "true") throw new Error(result.message);
+    form.reset();
+    showToast("¡Gracias! Recibimos tu mensaje y vamos a orar por vos");
+  } catch {
+    showToast("No se pudo enviar. Probá de nuevo en un momento");
+  } finally {
+    button.disabled = false;
+    button.textContent = "Enviar mensaje";
+  }
 });
