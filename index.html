@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Centro Familiar Cristiano para las Naciones | Pico Truncado</title>
+  <meta name="description" content="Centro Familiar Cristiano para las Naciones, Pico Truncado, Santa Cruz. Reunión general: domingos 19 hs. Jóvenes: viernes 22 hs. Célula de niños: sábados 14:30 hs.">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <meta name="theme-color" content="#0a1c3f">
+  <!-- Vista previa al compartir el link (WhatsApp, Facebook). Cuando el sitio esté publicado, conviene poner la URL completa en og:image -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Centro Familiar Cristiano para las Naciones">
+  <meta property="og:description" content="Ganar, formar y enviar para transformar el mundo. Reunión general: domingos 19 hs · Vélez Sarsfield 460, Pico Truncado.">
+  <meta property="og:image" content="assets/img/compartir.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <a class="topbar__address" href="https://www.google.com/maps/search/?api=1&query=V%C3%A9lez+Sarsfield+460,+Pico+Truncado,+Santa+Cruz" target="_blank" rel="noopener" title="Ver en el mapa">
+        <span class="topbar__pin" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></span>
+        <span><strong>Vélez Sarsfield 460</strong> · Pico Truncado, Santa Cruz</span>
+      </a>
+      <div class="social">
+        <span class="social__label">Seguinos</span>
+        <a class="social__link social__link--fb" href="https://www.facebook.com/mcfcpn" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3.2h-3V8.4c0-.9.3-1.6 1.6-1.6h1.6V4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.4H7.9v3.2h2.6V21z"/></svg>
+        </a>
+        <a class="social__link social__link--ig" href="https://www.instagram.com/cfcpn/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r="0.6" fill="currentColor"/></svg>
+        </a>
+        <a class="social__link social__link--yt" href="https://www.youtube.com/@cfcpncasacentral" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 7.8v8.4l7-4.2z"/></svg>
+        </a>
+        <a class="social__link social__link--tt" href="https://www.tiktok.com/@mediacfcpn" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#inicio" class="logo">
+        <img class="logo__mark" src="assets/img/logo-cfcpn.png" alt="" width="220" height="221">
+        <span class="logo__text"><strong>Centro Familiar Cristiano</strong><small>para las Naciones</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav">
+        <a href="#inicio">Inicio</a>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#sedes">Sedes</a>
+        <a href="#envivo">En vivo</a>
+        <a href="#radio">Radio</a>
+        <a href="#oracion">Oración</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#ofrendar" class="btn btn--light btn--sm">Ofrendar</a>
+      </nav>
+    </div>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+      <div class="hero__slides" id="heroSlides" aria-hidden="true">
+        <!-- data-pos: qué altura de la foto se prioriza. hero__slide--portrait: foto vertical, en computadora se muestra entera a la derecha -->
+        <div class="hero__slide is-active" data-bg="Imagenes/iglesia 2.jpg"></div>
+        <div class="hero__slide" data-bg="Imagenes/iglesia.jpg"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/ap gabriel.jpg" data-pos="40%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/ap marcela.jpg" data-pos="30%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/iglesia 4.jpg" data-pos="25%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/cinta 2.jpg" data-pos="40%"></div>
+        <div class="hero__slide" data-bg="Imagenes/intersecion.jpg" data-pos="18%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/ujieres.jpg" data-pos="35%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/multimedia.jpg" data-pos="35%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/cinta.jpg" data-pos="40%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/gera.jpg" data-pos="30%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/ema.jpg" data-pos="30%"></div>
+        <div class="hero__slide hero__slide--portrait" data-bg="Imagenes/sonido.jpg" data-pos="65%"></div>
+        <div class="hero__slide" data-bg="Imagenes/iglesia 3.jpg" data-pos="45%"></div>
+      </div>
+      <div class="hero__overlay" aria-hidden="true"></div>
+      <div class="hero__dots" id="heroDots"></div>
+      <div class="container hero__content">
+        <p class="eyebrow">Nuestra visión y misión</p>
+        <h1>Ganar, formar y enviar para <em>transformar</em> el mundo</h1>
+        <p class="hero__lead">Predicamos el Evangelio para ganar personas para Jesucristo y formamos discípulos que lleven su mensaje a nuestra ciudad, a la nación y al mundo entero.</p>
+        <div class="hero__actions">
+          <a href="#horarios" class="btn btn--light">Ver horarios</a>
+          <a href="#envivo" class="btn btn--ghost"><span class="live-dot" aria-hidden="true"></span>Mirar en vivo</a>
+        </div>
+        <div class="countdown" id="countdown" aria-live="polite">
+          <div class="countdown__info">
+            <span class="countdown__label" id="cdLabel">Próxima reunión</span>
+            <strong class="countdown__name" id="cdName">Reunión general</strong>
+            <span class="countdown__when" id="cdWhen">Domingo · 19:00 hs</span>
+          </div>
+          <div class="countdown__clock" id="cdClock">
+            <div class="countdown__unit"><span id="cdDays">0</span><small>días</small></div>
+            <div class="countdown__unit"><span id="cdHours">00</span><small>horas</small></div>
+            <div class="countdown__unit"><span id="cdMins">00</span><small>min</small></div>
+            <div class="countdown__unit"><span id="cdSecs">00</span><small>seg</small></div>
+          </div>
+          <a class="countdown__live" id="cdLive" href="https://www.youtube.com/@cfcpncasacentral" target="_blank" rel="noopener" hidden>
+            <span class="live-dot" aria-hidden="true"></span>Estamos reunidos ahora
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- HORARIOS -->
+    <section class="schedule" id="horarios">
+      <div class="container schedule__grid">
+        <article class="schedule__item">
+          <span class="schedule__day">Viernes</span>
+          <span class="schedule__time">22:00 hs</span>
+          <span class="schedule__name">Reunión de jóvenes</span>
+        </article>
+        <article class="schedule__item">
+          <span class="schedule__day">Sábado</span>
+          <span class="schedule__time">14:30 a 16:20 hs</span>
+          <span class="schedule__name">Célula de niños</span>
+        </article>
+        <article class="schedule__item schedule__item--main">
+          <span class="schedule__day">Domingo</span>
+          <span class="schedule__time">19:00 hs</span>
+          <span class="schedule__name">Reunión general</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- NOSOTROS -->
+    <section class="section" id="nosotros">
+      <div class="container split">
+        <div class="split__media">
+          <div class="photo photo--tall">
+            <img src="Imagenes/Apostoles.jpg" alt="Apóstoles Gabriel Perochena y Marcela Lapontge" loading="lazy" width="960" height="960">
+          </div>
+        </div>
+        <div class="split__text">
+          <p class="eyebrow eyebrow--dark">Quiénes somos</p>
+          <h2>Apóstoles Gabriel Perochena y Marcela Lapontge</h2>
+          <p>Establecido en la Patagonia desde 1999, el Centro Familiar Cristiano para las Naciones es un lugar donde cada persona puede conocer a Jesús, crecer en su fe y descubrir su propósito. Creemos en una iglesia viva, cercana y comprometida con su comunidad.</p>
+          <p>Nuestra visión es alcanzar a cada familia de Pico Truncado y de las naciones con el mensaje de esperanza del Evangelio, formar discípulos y servir con amor.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEDES -->
+    <section class="section section--tint" id="sedes">
+      <div class="container">
+        <header class="section__head">
+          <p class="eyebrow eyebrow--dark">Nuestras sedes</p>
+          <h2>Una familia para las naciones</h2>
+          <p>Desde Pico Truncado, el Centro Familiar Cristiano para las Naciones se extiende por distintas provincias de Argentina y más allá de nuestras fronteras.</p>
+        </header>
+        <div class="sedes">
+          <a class="sede sede--central" href="https://www.google.com/maps/search/?api=1&query=V%C3%A9lez+Sarsfield+460,+Pico+Truncado,+Santa+Cruz,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__tag">Casa Central</span>
+            <span class="sede__city">Pico Truncado</span>
+            <span class="sede__prov">Santa Cruz</span>
+            <span class="sede__link">Vélez Sarsfield 460 · Ver en el mapa →</span>
+          </a>
+          <a class="sede" href="https://www.google.com/maps/search/?api=1&query=Las+Heras,+Santa+Cruz,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__city">Las Heras</span>
+            <span class="sede__prov">Santa Cruz</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+          <a class="sede" href="https://www.google.com/maps/search/?api=1&query=Trelew,+Chubut,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__city">Trelew</span>
+            <span class="sede__prov">Chubut</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+          <a class="sede" href="https://www.google.com/maps/search/?api=1&query=General+Alvear,+Mendoza,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__city">General Alvear</span>
+            <span class="sede__prov">Mendoza</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+          <a class="sede" href="https://www.google.com/maps/search/?api=1&query=Vedia,+Buenos+Aires,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__city">Vedia</span>
+            <span class="sede__prov">Buenos Aires</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+          <a class="sede" href="https://www.google.com/maps/search/?api=1&query=Corrientes,+Corrientes,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__city">Corrientes</span>
+            <span class="sede__prov">Corrientes</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+          <a class="sede" href="https://www.google.com/maps/search/?api=1&query=Salta,+Salta,+Argentina" target="_blank" rel="noopener">
+            <span class="sede__city">Salta Capital</span>
+            <span class="sede__prov">Salta</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+          <a class="sede sede--intl" href="https://www.google.com/maps/search/?api=1&query=Santo+Domingo,+Rep%C3%BAblica+Dominicana" target="_blank" rel="noopener">
+            <span class="sede__tag">Internacional</span>
+            <span class="sede__city">Santo Domingo</span>
+            <span class="sede__prov">República Dominicana</span>
+            <span class="sede__link">Ver en el mapa →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EN VIVO -->
+    <section class="section section--dark" id="envivo">
+      <div class="container split split--reverse">
+        <div class="split__text">
+          <p class="eyebrow">Transmisión en vivo</p>
+          <h2>Sumate desde donde estés</h2>
+          <p>Transmitimos nuestras reuniones por YouTube todos los domingos a las 19:00 hs.</p>
+          <a href="https://www.youtube.com/@cfcpncasacentral" target="_blank" rel="noopener" class="btn btn--light">Ir al canal de YouTube</a>
+        </div>
+        <div class="split__media">
+          <div class="video">
+            <!-- Lista de últimos videos del canal (UU + ID del canal sin "UC"); incluye las transmisiones pasadas -->
+            <iframe data-src="https://www.youtube.com/embed/videoseries?list=UUexLcwMF-Z2LX_8uILdGoBw" title="Últimos videos del canal CFCPN Central"allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RADIO -->
+    <section class="section" id="radio">
+      <div class="container">
+        <div class="radio">
+          <img class="radio__logo" src="assets/img/radio-vida.png" alt="Logo de Radio Vida" width="320" height="320" loading="lazy">
+          <div class="radio__info">
+            <p class="eyebrow eyebrow--dark">Radio online · Pico Truncado</p>
+            <h2>Radio Vida 98.1 FM</h2>
+            <p>Radio cristiana las 24 horas. Escuchala en vivo desde acá o descargá la app para tenerla en tu celular, estés donde estés.</p>
+            <div class="radio__links">
+              <a class="btn btn--primary btn--sm" href="https://radiio.com.ar/app/52d7155b9a563040" target="_blank" rel="noopener">📲 Descargar la app</a>
+              <a class="btn btn--outline btn--sm" href="https://www.radiovidapicotruncado.com.ar" target="_blank" rel="noopener">Sitio de la radio</a>
+            </div>
+            <div class="radio__watch">
+              <span>Mirá los programas en video:</span>
+              <a class="watch watch--yt" href="https://www.youtube.com/@RadiofmVida-t9h" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 7.8v8.4l7-4.2z"/></svg>YouTube
+              </a>
+              <a class="watch watch--kick" href="https://kick.com/radiofmvida" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h5v5h2V6h2V3h7v6h-2v2h-2v2h2v2h2v6h-7v-3h-2v-2H9v5H4z"/></svg>Kick
+              </a>
+            </div>
+          </div>
+          <div class="radio__player">
+            <button class="radio__btn" id="radioBtn" aria-label="Escuchar Radio Vida en vivo">▶</button>
+            <div class="radio__wave" id="radioWave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="radio__status" id="radioStatus">Escuchar en vivo</span>
+            <audio id="radioAudio" preload="none" data-stream="https://genexservicios.com:8220/stream"></audio>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFRENDAR -->
+    <section class="section section--tint" id="ofrendar">
+      <div class="container">
+        <header class="section__head">
+          <p class="eyebrow eyebrow--dark">Ofrendas</p>
+          <h2>Tu ofrenda transforma vidas</h2>
+          <p>Con tu aporte sostenemos la obra en Pico Truncado y en cada una de nuestras sedes, llevando el mensaje del Evangelio a más familias y naciones.</p>
+        </header>
+        <div class="give">
+          <article class="give__card">
+            <h3>Transferencia bancaria</h3>
+            <dl>
+              <dt>Titular</dt><dd>Min. Centro Familiar Cristiano Para Las</dd>
+              <dt>Alias</dt><dd class="copy" data-copy="naciones460">naciones460</dd>
+              <dt>CBU</dt><dd class="copy" data-copy="0110653040065305054880">0110653040065305054880</dd>
+              <dt>CUIT</dt><dd>30-70978240-8</dd>
+            </dl>
+            <p class="give__hint">Tocá el CBU o el alias para copiarlo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PEDIDO DE ORACIÓN -->
+    <section class="section" id="oracion">
+      <div class="container split">
+        <div class="split__text">
+          <p class="eyebrow eyebrow--dark">Pedido de oración</p>
+          <h2>No estás solo</h2>
+          <p>Contanos por qué querés que oremos. Nuestro equipo de intercesión va a orar por vos. Tu mensaje llega directo por WhatsApp.</p>
+        </div>
+        <form class="form" id="prayerForm">
+          <label>Nombre
+            <input type="text" name="nombre" required placeholder="Tu nombre">
+          </label>
+          <label>Tipo de mensaje
+            <select name="tipo">
+              <option>Pedido de oración</option>
+              <option>Testimonio</option>
+              <option>Quiero conocer más de Jesús</option>
+              <option>Consulta general</option>
+            </select>
+          </label>
+          <label>Mensaje
+            <textarea name="mensaje" rows="5" required placeholder="Escribí tu mensaje..."></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary">Enviar por WhatsApp</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section section--dark" id="contacto">
+      <div class="container contact">
+        <div class="contact__info">
+          <p class="eyebrow">Contacto</p>
+          <h2>Te esperamos</h2>
+          <ul class="contact__list">
+            <li><strong>Dirección</strong>Vélez Sarsfield 460, Pico Truncado, Santa Cruz, Argentina</li>
+            <li><strong>Email</strong><a href="mailto:apostolweb@gmail.com">apostolweb@gmail.com</a></li>
+            <li><strong>Secretaría</strong>Lunes a viernes de 9 a 17 hs</li>
+          </ul>
+        </div>
+        <div class="contact__map">
+          <iframe data-src="https://www.google.com/maps?q=V%C3%A9lez+Sarsfield+460,+Pico+Truncado,+Santa+Cruz,+Argentina&output=embed" title="Mapa de la iglesia"referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="footer__brand"><img src="assets/img/logo-cfcpn.png" alt="" width="40" height="40" loading="lazy"><span>© <span id="year"></span> Centro Familiar Cristiano para las Naciones · Pico Truncado, Santa Cruz.</span></span>
+      <div class="social">
+        <a class="social__link social__link--fb" href="https://www.facebook.com/mcfcpn" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3.2h-3V8.4c0-.9.3-1.6 1.6-1.6h1.6V4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.4H7.9v3.2h2.6V21z"/></svg>
+        </a>
+        <a class="social__link social__link--ig" href="https://www.instagram.com/cfcpn/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.8" cy="7.2" r="0.6" fill="currentColor"/></svg>
+        </a>
+        <a class="social__link social__link--yt" href="https://www.youtube.com/@cfcpncasacentral" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 7.8v8.4l7-4.2z"/></svg>
+        </a>
+        <a class="social__link social__link--tt" href="https://www.tiktok.com/@mediacfcpn" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8a4.3 4.3 0 0 1-1-2.8h-3.1v12.4a2.6 2.6 0 1 1-2.6-2.6c.3 0 .5 0 .8.1V9.7a5.7 5.7 0 1 0 4.9 5.7V9.1a7.3 7.3 0 0 0 4.3 1.4V7.4a4.3 4.3 0 0 1-3.3-1.6z"/></svg>
+        </a>
+      </div>
+      <a href="#inicio">Volver arriba ↑</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
