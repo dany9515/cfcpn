@@ -72,34 +72,81 @@ if (!reduceMotion) {
 }
 
 const SLIDE_TIME = 6000;
-const slides = [...document.querySelectorAll(".hero__slide")];
+// Carpeta de las fotos de la portada: el sitio muestra todo lo que haya ahí, ordenado por nombre
+const CAROUSEL_FOLDER = "Imagenes/carrusel";
+const CAROUSEL_API = `https://api.github.com/repos/dany9515/cfcpn/contents/${CAROUSEL_FOLDER}?ref=main`;
+const CAROUSEL_CACHE_MIN = 10;
+const heroSlidesBox = document.getElementById("heroSlides");
 const dotsBox = document.getElementById("heroDots");
 dotsBox.style.setProperty("--slide-time", `${SLIDE_TIME}ms`);
+let slides = [];
+let dots = [];
 let current = 0;
 let slideTimer;
 
-const dots = slides.map((_, i) => {
-  const dot = document.createElement("button");
-  dot.className = "hero__dot";
-  dot.type = "button";
-  dot.setAttribute("aria-label", `Ver foto ${i + 1}`);
-  dot.addEventListener("click", () => showSlide(i));
-  dotsBox.append(dot);
-  return dot;
-});
+// Pide a GitHub la lista de fotos de la carpeta. La guarda unos minutos para no consultar en cada visita
+// (GitHub permite 60 consultas por hora desde cada conexión)
+async function fetchCarouselFiles() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("carrusel") || "null");
+    if (saved && Date.now() - saved.time < CAROUSEL_CACHE_MIN * 60000) return saved.files;
+  } catch {}
+  const controller = new AbortController();
+  setTimeout(() => controller.abort(), 2500);
+  const res = await fetch(CAROUSEL_API, { signal: controller.signal });
+  if (!res.ok) throw new Error(res.status);
+  const files = (await res.json())
+    .filter((f) => f.type === "file" && /\.(jpe?g|png|webp)$/i.test(f.name))
+    .map((f) => f.name)
+    .sort((a, b) => a.localeCompare(b, "es", { numeric: true }));
+  try { localStorage.setItem("carrusel", JSON.stringify({ time: Date.now(), files })); } catch {}
+  return files;
+}
 
-// Cada foto se descarga recién cuando le toca o está por tocarle, para no cargar todas al abrir la página
+// Arma las fotos con la lista de la carpeta. Si una foto ya estaba en el HTML, conserva su data-pos
+function buildSlides(files) {
+  const savedPos = new Map([...heroSlidesBox.querySelectorAll(".hero__slide")].map((s) => [s.dataset.bg, s.dataset.pos]));
+  heroSlidesBox.replaceChildren(...files.map((name) => {
+    const slide = document.createElement("div");
+    slide.className = "hero__slide";
+    slide.dataset.bg = `${CAROUSEL_FOLDER}/${name}`;
+    const pos = savedPos.get(slide.dataset.bg);
+    if (pos) slide.dataset.pos = pos;
+    return slide;
+  }));
+}
+
+// Cada foto se descarga recién cuando le toca o está por tocarle, para no cargar todas al abrir la página.
+// Al descargarla se ve si es vertical; si no existe (por ejemplo, recién subida y GitHub todavía no la publicó) se saltea
 function loadSlide(slide) {
   if (slide.dataset.loaded) return;
   slide.dataset.loaded = "1";
   // Ruta absoluta: un url() relativo dentro de una variable CSS se resolvería contra la carpeta del CSS
-  slide.style.setProperty("--img", `url("${new URL(slide.dataset.bg, document.baseURI).href}")`);
-  if (slide.dataset.pos) slide.style.setProperty("--pos", slide.dataset.pos);
+  const url = new URL(slide.dataset.bg, document.baseURI).href;
+  const img = new Image();
+  img.onload = () => {
+    slide.classList.toggle("hero__slide--portrait", img.naturalHeight > img.naturalWidth);
+    if (slide.dataset.pos) slide.style.setProperty("--pos", slide.dataset.pos);
+    slide.style.setProperty("--img", `url("${url}")`);
+  };
+  img.onerror = () => {
+    slide.dataset.broken = "1";
+    if (slide === slides[current]) showSlide(nextSlide(current));
+  };
+  img.src = url;
+}
+
+function nextSlide(from) {
+  for (let step = 1; step <= slides.length; step++) {
+    const i = (from + step) % slides.length;
+    if (!slides[i].dataset.broken) return i;
+  }
+  return from;
 }
 
 function showSlide(index) {
   loadSlide(slides[index]);
-  loadSlide(slides[(index + 1) % slides.length]);
+  loadSlide(slides[nextSlide(index)]);
   slides[current].classList.remove("is-active");
   dots[current].classList.remove("is-active");
   current = index;
@@ -108,9 +155,29 @@ function showSlide(index) {
   void dots[current].offsetWidth;
   dots[current].classList.add("is-active");
   clearTimeout(slideTimer);
-  slideTimer = setTimeout(() => showSlide((current + 1) % slides.length), SLIDE_TIME);
+  slideTimer = setTimeout(() => showSlide(nextSlide(current)), SLIDE_TIME);
 }
-showSlide(0);
+
+function startCarousel() {
+  slides = [...heroSlidesBox.querySelectorAll(".hero__slide")];
+  if (!slides.length) return;
+  dots = slides.map((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "hero__dot";
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Ver foto ${i + 1}`);
+    dot.addEventListener("click", () => showSlide(i));
+    dotsBox.append(dot);
+    return dot;
+  });
+  showSlide(0);
+}
+
+// Si GitHub no responde, se usa la lista que está en el HTML
+fetchCarouselFiles()
+  .then((files) => { if (files.length) buildSlides(files); })
+  .catch(() => {})
+  .finally(startCarousel);
 
 // day: 0 = domingo … 6 = sábado. Duración en minutos.
 const MEETINGS = [
