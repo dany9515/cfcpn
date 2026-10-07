@@ -63,6 +63,12 @@ p { margin: 0 0 1em; }
 .btn--ghost:hover { background: rgba(255,255,255,.12); }
 .btn--primary { background: var(--blue-600); color: var(--white); }
 .btn--primary:hover { background: var(--blue-700); }
+.btn--live { background: #e0242f; color: var(--white); box-shadow: 0 8px 22px -8px rgba(224,36,47,.6); }
+.btn--live:hover { background: #c41c26; }
+.btn--live .live-dot { background: var(--white); }
+/* El display de .btn pisa al atributo hidden: los botones del vivo se esconden igual */
+.btn[hidden] { display: none; }
+.live-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.4rem; }
 
 .eyebrow {
   text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.78rem; font-weight: 700;

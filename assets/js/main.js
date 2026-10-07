@@ -181,7 +181,7 @@ fetchCarouselFiles()
 
 // day: 0 = domingo … 6 = sábado. Duración en minutos.
 const MEETINGS = [
-  { name: "Reunión general", day: 0, hour: 19, min: 0, duration: 120, live: true },
+  { name: "Reunión general", day: 0, hour: 19, min: 20, duration: 120, live: true },
 ];
 const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 // Argentina es UTC-3 todo el año: se trabaja con la hora local de la iglesia aunque el visitante esté en otro país
@@ -241,6 +241,42 @@ function updateCountdown() {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+/* ---------- En vivo ---------- */
+// Dirección del "portero" en Cloudflare (cloudflare/worker-en-vivo.js), que responde { live, url }
+const LIVE_API = "https://cfcpn-en-vivo.dany1234491.workers.dev";
+const LIVE_CHECK_EVERY = 90e3;
+// Si el portero no responde, los botones se muestran igual los domingos de 19:20 a 22:00 (hora de Argentina)
+const LIVE_FALLBACK = { day: 0, from: 19 * 60 + 20, to: 22 * 60 };
+const liveLinks = document.querySelectorAll("[data-live-link]");
+
+function inFallbackWindow() {
+  const now = new Date(Date.now() + AR_OFFSET);
+  const mins = now.getUTCHours() * 60 + now.getUTCMinutes();
+  return now.getUTCDay() === LIVE_FALLBACK.day && mins >= LIVE_FALLBACK.from && mins < LIVE_FALLBACK.to;
+}
+
+function showLive(live, url) {
+  liveLinks.forEach((link) => {
+    link.hidden = !live;
+    if (url) link.href = url;
+  });
+}
+
+async function checkLive() {
+  try {
+    if (!LIVE_API) throw new Error("sin portero");
+    const res = await fetch(LIVE_API, { cache: "no-store", signal: AbortSignal.timeout(8000) });
+    const data = await res.json();
+    if (data.error) throw new Error("el portero no pudo ver YouTube");
+    showLive(data.live, data.url);
+  } catch {
+    showLive(inFallbackWindow());
+  }
+}
+
+checkLive();
+setInterval(checkLive, LIVE_CHECK_EVERY);
 
 const progress = document.getElementById("progress");
 const hero = document.querySelector(".hero");

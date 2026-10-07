@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=3">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 </head>
 <body>
 
@@ -106,13 +106,14 @@
         <p class="hero__lead">Predicamos el Evangelio para ganar personas para Jesucristo y formamos discípulos que lleven su mensaje a nuestra ciudad, a la nación y al mundo entero.</p>
         <div class="hero__actions">
           <a href="#horarios" class="btn btn--light">Ver horarios</a>
-          <a href="#envivo" class="btn btn--ghost"><span class="live-dot" aria-hidden="true"></span>Mirar en vivo</a>
+          <!-- Solo aparece cuando la iglesia está transmitiendo en YouTube (ver "En vivo" en main.js) -->
+          <a href="https://www.youtube.com/@cfcpncasacentral/live" target="_blank" rel="noopener" class="btn btn--ghost" data-live-link hidden><span class="live-dot" aria-hidden="true"></span>Mirar en vivo</a>
         </div>
         <div class="countdown" id="countdown" aria-live="polite">
           <div class="countdown__info">
             <span class="countdown__label" id="cdLabel">Próxima reunión</span>
             <strong class="countdown__name" id="cdName">Reunión general</strong>
-            <span class="countdown__when" id="cdWhen">Domingo · 19:00 hs</span>
+            <span class="countdown__when" id="cdWhen">Domingo · 19:20 hs</span>
           </div>
           <div class="countdown__clock" id="cdClock">
             <div class="countdown__unit"><span id="cdDays">0</span><small>días</small></div>
@@ -159,7 +160,7 @@
         <div class="split__text">
           <p class="eyebrow eyebrow--dark">Quiénes somos</p>
           <h2>Apóstoles Gabriel Perochena y Marcela Lapontge</h2>
-          <p>Establecido en la Patagonia desde 1999, el Centro Familiar Cristiano para las Naciones es un lugar donde cada persona puede conocer a Jesús, crecer en su fe y descubrir su propósito. Creemos en una iglesia viva, cercana y comprometida con su comunidad.</p>
+          <p>Establecido en la Patagonia desde 1999, el Centro Familiar Cristiano para las Naciones es un lugar donde cada persona puede conocer a Jesús, crecer en su fe y descubrir su propósito. Creemos en una iglesia viva, cercana y que camina junto a cada familia.</p>
           <p>Nuestra visión es alcanzar a cada familia de Pico Truncado y de las naciones con el mensaje de esperanza del Evangelio, formar discípulos y servir con amor.</p>
         </div>
       </div>
@@ -223,9 +224,12 @@
         <div class="split__text">
           <p class="eyebrow">Transmisión en vivo</p>
           <h2>Sumate desde donde estés</h2>
-          <p>Transmitimos nuestras reuniones por YouTube todos los domingos a las 19:00 hs.</p>
+          <p>Transmitimos nuestras reuniones por YouTube todos los domingos a las 19:20 hs.</p>
           <p>¿Te perdiste alguna? En nuestro canal encontrás <strong>todas las prédicas</strong> para verlas cuando quieras.</p>
-          <a href="https://www.youtube.com/@cfcpncasacentral" target="_blank" rel="noopener" class="btn btn--light">Ir al canal de YouTube</a>
+          <div class="live-actions">
+            <a href="https://www.youtube.com/@cfcpncasacentral/live" target="_blank" rel="noopener" class="btn btn--live" data-live-link hidden><span class="live-dot" aria-hidden="true"></span>Estamos en vivo · Sumate</a>
+            <a href="https://www.youtube.com/@cfcpncasacentral" target="_blank" rel="noopener" class="btn btn--light">Ir al canal de YouTube</a>
+          </div>
         </div>
         <div class="split__media">
           <div class="video">
@@ -367,6 +371,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/main.js?v=2"></script>
+  <script src="assets/js/main.js?v=3"></script>
 </body>
 </html>
