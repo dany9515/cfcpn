@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=5">
+  <link rel="stylesheet" href="assets/css/styles.css?v=6">
 </head>
 <body>
 
@@ -264,17 +264,20 @@
     </section>
 
     <!-- RADIO -->
-    <section class="section" id="radio">
+    <section class="section section--photo" id="radio">
+      <!-- Foto del estudio de fondo, con velo azul y zoom lento como la portada -->
+      <div class="photo-bg photo-bg--radio" aria-hidden="true"></div>
+      <div class="photo-bg__overlay" aria-hidden="true"></div>
       <div class="container">
         <div class="radio">
           <img class="radio__logo" src="assets/img/radio-vida.png" alt="Logo de Radio Vida" width="320" height="320" loading="lazy">
           <div class="radio__info">
-            <p class="eyebrow eyebrow--dark">Radio online · Pico Truncado</p>
+            <p class="eyebrow">Radio online · Pico Truncado</p>
             <h2>Radio <em>Vida</em> 98.1 FM</h2>
             <p>Radio cristiana las 24 horas. Escuchala en vivo desde acá o descargá la app para tenerla en tu celular, estés donde estés.</p>
             <div class="radio__links">
               <a class="btn btn--primary btn--sm" href="https://radiio.com.ar/app/52d7155b9a563040" target="_blank" rel="noopener">📲 Descargar la app</a>
-              <a class="btn btn--outline btn--sm" href="https://www.radiovidapicotruncado.com.ar" target="_blank" rel="noopener">Sitio de la radio</a>
+              <a class="btn btn--ghost btn--sm" href="https://www.radiovidapicotruncado.com.ar" target="_blank" rel="noopener">Sitio de la radio</a>
             </div>
             <div class="radio__watch">
               <span>Mirá los programas en video:</span>
@@ -404,6 +407,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/main.js?v=4"></script>
+  <script src="assets/js/main.js?v=5"></script>
 </body>
 </html>

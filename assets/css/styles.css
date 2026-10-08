@@ -373,20 +373,47 @@ a.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(-
 .video { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); background: var(--navy-950); }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
+/* ---------- Sección con foto de fondo (Radio), como la portada ---------- */
+.section--photo { position: relative; overflow: hidden; background: var(--navy-900); color: var(--ice-100); }
+.section--photo > .container { position: relative; }
+.photo-bg {
+  position: absolute; inset: 0;
+  background: center 40% / cover no-repeat;
+}
+.photo-bg--radio { background-image: url("../img/radio-estudio.jpg"); }
+/* El zoom lento arranca cuando la sección aparece en pantalla (lo marca main.js) */
+.js-anim .photo-bg[data-anim] { opacity: 1; transform: scale(1.12); transition: transform 10s linear; }
+.js-anim .photo-bg[data-anim].is-visible { transform: scale(1); }
+.photo-bg__overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10,28,63,.72) 0%, rgba(15,43,92,.55) 45%, rgba(20,64,138,.3) 75%, rgba(29,95,209,.18) 100%),
+    linear-gradient(0deg, rgba(5,15,36,.45) 0%, transparent 40%);
+}
+/* Línea celeste con brillo arriba: separa la foto de la sección oscura de En vivo */
+.section--photo::before {
+  content: ""; position: absolute; z-index: 1; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--blue-500) 20%, var(--sky-200) 50%, var(--blue-500) 80%, transparent);
+  box-shadow: 0 0 18px 2px rgba(147,197,253,.55);
+}
+
 /* ---------- Radio ---------- */
 .radio {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem);
   padding: clamp(2rem, 5vw, 3.5rem); border-radius: calc(var(--radius) + 8px);
-  background: linear-gradient(120deg, var(--ice-100), var(--sky-200));
+  background: rgba(5,15,36,.62); border: 1px solid rgba(147,197,253,.28);
+  box-shadow: 0 30px 60px -24px rgba(0,0,0,.6);
 }
+.radio__info h2 { color: var(--white); }
+.radio__info h2 em { color: var(--sky-200); }
 .radio__logo {
   width: clamp(110px, 12vw, 150px); height: auto; aspect-ratio: 1; border-radius: 24px;
   box-shadow: 0 18px 36px -16px rgba(10,28,63,.45);
 }
 .radio__info h2 { margin-bottom: 0.4em; }
-.radio__info > p:not(.eyebrow) { color: var(--muted); margin: 0 0 1.2rem; max-width: 460px; }
+.radio__info > p:not(.eyebrow) { color: var(--ice-100); margin: 0 0 1.2rem; max-width: 460px; }
 .radio__links { display: flex; gap: 0.7rem; flex-wrap: wrap; }
-.radio__watch { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.6rem; margin-top: 1rem; font-size: 0.86rem; font-weight: 600; color: var(--navy-800); }
+.radio__watch { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.6rem; margin-top: 1rem; font-size: 0.86rem; font-weight: 600; color: var(--blue-300); }
 .watch {
   display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.85rem 0.35rem 0.55rem; border-radius: 999px;
   font-weight: 700; font-size: 0.82rem; transition: transform 0.25s var(--ease), filter 0.25s;
@@ -397,7 +424,7 @@ a.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(-
 .watch--kick { background: #53fc18; color: #000; }
 .btn--outline { border-color: var(--blue-600); color: var(--blue-600); }
 .btn--outline:hover { background: var(--blue-600); color: var(--white); }
-.radio__player { display: flex; align-items: center; gap: 1.3rem; background: var(--navy-900); padding: 1rem 1.6rem 1rem 1rem; border-radius: 999px; }
+.radio__player { display: flex; align-items: center; gap: 1.3rem; background: var(--navy-900); padding: 1rem 1.6rem 1rem 1rem; border-radius: 999px; border: 1px solid rgba(147,197,253,.3); }
 .radio__btn {
   width: 58px; height: 58px; border-radius: 50%; border: 0; cursor: pointer; font-size: 1.2rem;
   background: var(--blue-500); color: var(--white); transition: transform 0.2s, background 0.2s;

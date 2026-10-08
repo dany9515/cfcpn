@@ -43,7 +43,7 @@ const animations = [
   [".sede, .sedes__label", 0.1],
   [".sedes__map", 0],
   [".photo, .video, .contact__map", 0],
-  [".radio", 0],
+  [".radio, .photo-bg", 0],
   [".give__card, .give__alert", 0.15],
   [".form", 0],
 ];
