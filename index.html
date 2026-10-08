@@ -22,8 +22,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=5">
 </head>
 <body>
 
@@ -158,7 +158,7 @@
         </div>
         <div class="split__text">
           <p class="eyebrow eyebrow--dark">Quiénes somos</p>
-          <h2>Apóstoles Gabriel Perochena y Marcela Lapontge</h2>
+          <h2><em>Apóstoles</em> Gabriel Perochena y Marcela Lapontge</h2>
           <p>Establecido en la Patagonia desde 1999, el Centro Familiar Cristiano para las Naciones es un lugar donde cada persona puede conocer a Jesús, crecer en su fe y descubrir su propósito. Creemos en una iglesia viva, cercana y que camina junto a cada familia.</p>
           <p>Nuestra visión es alcanzar a cada familia de Pico Truncado y de las naciones con el mensaje de esperanza del Evangelio, formar discípulos y servir con amor.</p>
         </div>
@@ -170,46 +170,70 @@
       <div class="container">
         <header class="section__head">
           <p class="eyebrow eyebrow--dark">Dónde estamos</p>
-          <h2>Una familia para las naciones</h2>
+          <h2>Una familia para las <em>naciones</em></h2>
           <p>Desde Pico Truncado, el Centro Familiar Cristiano para las Naciones se extiende por distintas provincias de Argentina y más allá de nuestras fronteras.</p>
         </header>
         <div class="sedes">
-          <a class="sede sede--central" href="https://www.google.com/maps/search/?api=1&query=V%C3%A9lez+Sarsfield+460,+Pico+Truncado,+Santa+Cruz,+Argentina" target="_blank" rel="noopener">
+          <a class="sede sede--central" data-city="pico-truncado" href="https://www.google.com/maps/search/?api=1&query=V%C3%A9lez+Sarsfield+460,+Pico+Truncado,+Santa+Cruz,+Argentina" target="_blank" rel="noopener">
             <span class="sede__tag">Casa Central</span>
             <span class="sede__city">Pico Truncado</span>
             <span class="sede__prov">Santa Cruz</span>
             <span class="sede__link">Vélez Sarsfield 460 · Ver en el mapa →</span>
           </a>
           <h3 class="sedes__label"><span>Presentes en Argentina <em>y en las naciones</em></span></h3>
-          <div class="sede">
+          <!-- Mapa: el dibujo de los países está en mapa-base.svg; acá van los arcos, los puntos y los nombres -->
+          <figure class="sedes__map">
+            <svg class="map" viewBox="40 20 460 828" role="img" aria-label="Mapa con las ciudades donde está el ministerio, desde Pico Truncado hasta Santo Domingo y Tapejara">
+              <image href="assets/img/mapa-base.svg" width="520" height="848"/>
+              <g class="map__arcs">
+                <path pathLength="1" d="M179.7 707.5Q181.7 679.8 203.5 662.5"/>
+                <path pathLength="1" d="M179.7 707.5Q149.9 636.6 182.1 566.7"/>
+                <path pathLength="1" d="M179.7 707.5Q176.3 621.9 237.2 561.5"/>
+                <path pathLength="1" d="M179.7 707.5Q172.3 579.7 261.5 487.9"/>
+                <path pathLength="1" d="M179.7 707.5Q136.8 579.3 202.4 461.1"/>
+                <path pathLength="1" d="M179.7 707.5Q29.0 389.1 162.0 62.9"/>
+                <path pathLength="1" d="M179.7 707.5Q204.2 569.3 322.6 494.0"/>
+              </g>
+              <g class="map__city" data-city="las-heras"><circle class="map__pulse" cx="170.9" cy="704.2" r="5"/><circle class="map__dot" cx="170.9" cy="704.2" r="4.5"/><text x="159.9" y="709.2" text-anchor="end">Las Heras</text></g>
+              <g class="map__city" data-city="trelew"><circle class="map__pulse" cx="203.5" cy="662.5" r="5"/><circle class="map__dot" cx="203.5" cy="662.5" r="4.5"/><text x="214.5" y="667.5">Trelew</text></g>
+              <g class="map__city" data-city="general-alvear"><circle class="map__pulse" cx="182.1" cy="566.7" r="5"/><circle class="map__dot" cx="182.1" cy="566.7" r="4.5"/><text x="171.1" y="571.7" text-anchor="end">General Alvear</text></g>
+              <g class="map__city" data-city="vedia"><circle class="map__pulse" cx="237.2" cy="561.5" r="5"/><circle class="map__dot" cx="237.2" cy="561.5" r="4.5"/><text x="248.2" y="566.5">Vedia</text></g>
+              <g class="map__city" data-city="corrientes"><circle class="map__pulse" cx="261.5" cy="487.9" r="5"/><circle class="map__dot" cx="261.5" cy="487.9" r="4.5"/><text x="261.5" y="511.9" text-anchor="middle">Corrientes</text></g>
+              <g class="map__city" data-city="salta"><circle class="map__pulse" cx="202.4" cy="461.1" r="5"/><circle class="map__dot" cx="202.4" cy="461.1" r="4.5"/><text x="191.4" y="466.1" text-anchor="end">Salta</text></g>
+              <g class="map__city" data-city="santo-domingo"><circle class="map__pulse" cx="162" cy="62.9" r="5"/><circle class="map__dot" cx="162" cy="62.9" r="4.5"/><text x="173" y="67.9">Santo Domingo<tspan class="map__sub" x="173" dy="17">República Dominicana</tspan></text></g>
+              <g class="map__city" data-city="tapejara"><circle class="map__pulse" cx="322.6" cy="494" r="5"/><circle class="map__dot" cx="322.6" cy="494" r="4.5"/><text x="333.6" y="499">Tapejara<tspan class="map__sub" x="333.6" dy="17">Brasil</tspan></text></g>
+              <g class="map__city map__city--hq" data-city="pico-truncado"><circle class="map__pulse" cx="179.7" cy="707.5" r="8"/><circle class="map__dot" cx="179.7" cy="707.5" r="7"/><text x="194.7" y="713.5">Pico Truncado<tspan class="map__sub" x="194.7" dy="17">Casa Central</tspan></text></g>
+            </svg>
+          </figure>
+          <div class="sede" data-city="las-heras">
             <span class="sede__city">Las Heras</span>
             <span class="sede__prov">Santa Cruz</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="trelew">
             <span class="sede__city">Trelew</span>
             <span class="sede__prov">Chubut</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="general-alvear">
             <span class="sede__city">General Alvear</span>
             <span class="sede__prov">Mendoza</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="vedia">
             <span class="sede__city">Vedia</span>
             <span class="sede__prov">Buenos Aires</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="corrientes">
             <span class="sede__city">Corrientes</span>
             <span class="sede__prov">Corrientes</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="salta">
             <span class="sede__city">Salta Capital</span>
             <span class="sede__prov">Salta</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="santo-domingo">
             <span class="sede__city">Santo Domingo</span>
             <span class="sede__prov">República Dominicana</span>
           </div>
-          <div class="sede">
+          <div class="sede" data-city="tapejara">
             <span class="sede__city">Tapejara</span>
             <span class="sede__prov">Brasil</span>
           </div>
@@ -222,7 +246,7 @@
       <div class="container split split--reverse">
         <div class="split__text">
           <p class="eyebrow">Transmisión en vivo</p>
-          <h2>Sumate desde donde estés</h2>
+          <h2>Sumate desde <em>donde estés</em></h2>
           <p>Transmitimos nuestras reuniones por YouTube todos los domingos a las 19:20 hs.</p>
           <p>¿Te perdiste alguna? En nuestro canal encontrás <strong>todas las prédicas</strong> para verlas cuando quieras.</p>
           <div class="live-actions">
@@ -246,7 +270,7 @@
           <img class="radio__logo" src="assets/img/radio-vida.png" alt="Logo de Radio Vida" width="320" height="320" loading="lazy">
           <div class="radio__info">
             <p class="eyebrow eyebrow--dark">Radio online · Pico Truncado</p>
-            <h2>Radio Vida 98.1 FM</h2>
+            <h2>Radio <em>Vida</em> 98.1 FM</h2>
             <p>Radio cristiana las 24 horas. Escuchala en vivo desde acá o descargá la app para tenerla en tu celular, estés donde estés.</p>
             <div class="radio__links">
               <a class="btn btn--primary btn--sm" href="https://radiio.com.ar/app/52d7155b9a563040" target="_blank" rel="noopener">📲 Descargar la app</a>
@@ -279,7 +303,7 @@
       <div class="container">
         <header class="section__head">
           <p class="eyebrow eyebrow--dark">Ofrendas</p>
-          <h2>Tu ofrenda transforma vidas</h2>
+          <h2>Tu ofrenda <em>transforma</em> vidas</h2>
           <p>Con tu aporte sostenemos la obra en Pico Truncado y en cada ciudad donde estamos, llevando el mensaje del Evangelio a más familias y naciones.</p>
         </header>
         <div class="give">
@@ -293,6 +317,17 @@
             </dl>
             <p class="give__hint">Tocá el CBU o el alias para copiarlo.</p>
           </article>
+          <aside class="give__alert" role="note">
+            <svg class="give__alert-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Z" fill="currentColor"/><path d="M12 7v6M12 16.5v.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+            <div>
+              <h3>Antes de transferir, verificá los datos</h3>
+              <ul>
+                <li>El titular tiene que ser <strong>Min. Centro Familiar Cristiano Para Las</strong>, CUIT <strong>30-70978240-8</strong>. Si aparece otro nombre, <strong>no transfieras</strong>.</li>
+                <li>La iglesia <strong>nunca</strong> te va a pedir dinero ni datos bancarios por mensaje privado (WhatsApp, Facebook o Instagram).</li>
+                <li>Si tenés alguna duda, consultanos en la iglesia antes de hacer la transferencia.</li>
+              </ul>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
@@ -302,7 +337,7 @@
       <div class="container split">
         <div class="split__text">
           <p class="eyebrow eyebrow--dark">Pedido de oración</p>
-          <h2>No estás solo</h2>
+          <h2>No estás <em>solo</em></h2>
           <p>Contanos por qué querés que oremos. Nuestro equipo de intercesión va a orar por vos. Tu mensaje es privado: solo lo lee nuestro equipo.</p>
         </div>
         <form class="form" id="prayerForm">
@@ -332,11 +367,10 @@
       <div class="container contact">
         <div class="contact__info">
           <p class="eyebrow">Contacto</p>
-          <h2>Te esperamos</h2>
+          <h2>Te <em>esperamos</em></h2>
           <ul class="contact__list">
             <li><strong>Dirección</strong>Vélez Sarsfield 460, Pico Truncado, Santa Cruz, Argentina</li>
             <li><strong>Email</strong><a href="mailto:apostolweb@gmail.com">apostolweb@gmail.com</a></li>
-            <li><strong>Secretaría</strong>Lunes a viernes de 9 a 17 hs</li>
           </ul>
         </div>
         <div class="contact__map">
@@ -370,6 +404,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/main.js?v=3"></script>
+  <script src="assets/js/main.js?v=4"></script>
 </body>
 </html>

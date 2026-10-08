@@ -34,7 +34,6 @@ function showToast(message) {
 }
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
 // Qué elementos aparecen con fundido al bajar y cuántos segundos se espera entre uno y el siguiente del mismo grupo
 const animations = [
   [".section__head > *", 0.12],
@@ -42,9 +41,10 @@ const animations = [
   [".contact__info > *", 0.12],
   [".schedule__item", 0.15],
   [".sede, .sedes__label", 0.1],
+  [".sedes__map", 0],
   [".photo, .video, .contact__map", 0],
   [".radio", 0],
-  [".give__card", 0],
+  [".give__card, .give__alert", 0.15],
   [".form", 0],
 ];
 
@@ -70,6 +70,13 @@ if (!reduceMotion) {
   }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
   document.querySelectorAll("[data-anim]").forEach((el) => revealObserver.observe(el));
 }
+
+// Mapa de "Dónde estamos": al pasar el mouse por una tarjeta se ilumina su punto en el mapa, y al revés
+document.querySelectorAll("[data-city]").forEach((el) => {
+  const linked = document.querySelectorAll(`[data-city="${el.dataset.city}"]`);
+  el.addEventListener("mouseenter", () => linked.forEach((l) => l.classList.add("is-hot")));
+  el.addEventListener("mouseleave", () => linked.forEach((l) => l.classList.remove("is-hot")));
+});
 
 const SLIDE_TIME = 6000;
 // Carpeta de las fotos de la portada: el sitio muestra todo lo que haya ahí, ordenado por nombre
