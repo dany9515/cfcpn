@@ -508,7 +508,8 @@ async function checkLive() {
     const res = await fetch(LIVE_API, { cache: "no-store", signal: AbortSignal.timeout(8000) });
     const data = await res.json();
     if (data.error) throw new Error("el portero no pudo ver YouTube");
-    showLive(data.live, data.url);
+    // En el horario de respaldo se muestra igual, por si YouTube no le contesta bien al portero
+    showLive(data.live || inFallbackWindow(), data.url);
   } catch {
     showLive(inFallbackWindow());
   }
