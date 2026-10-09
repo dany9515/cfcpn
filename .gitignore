@@ -1,3 +1,9 @@
 # Notas internas: no se publican
 CLAUDE.md
 .claude/
+
+# Novedades de ejemplo: solo se ven en la compu (localhost), no se publican
+novedades-ejemplo.json
+
+# Fotos originales del estudio de la radio (pesadas): no se publican
+Imagenes Radio/

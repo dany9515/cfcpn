@@ -33,6 +33,232 @@ function showToast(message) {
   showToast.timer = setTimeout(() => toast.classList.remove("is-visible"), 2500);
 }
 
+// ---------- Novedades ----------
+// Las novedades se cargan a mano en novedades.json (una por reunión o evento, con sus fotos en Imagenes/novedades/).
+// Si la lista está vacía, la sección y el link del menú quedan escondidos.
+// En la compu (localhost) se usan las de ejemplo de novedades-ejemplo.json, que no se suben a GitHub.
+const NEWS_URL = "novedades.json";
+const NEWS_SAMPLE_URL = "novedades-ejemplo.json";
+const NEWS_FIRST = 4; // la grande + 3 al costado; el resto aparece con "Ver más novedades"
+
+const newsSection = document.getElementById("novedades");
+const newsNavLink = document.getElementById("navNovedades");
+const newsGrid = document.getElementById("news");
+const newsMore = document.getElementById("newsMore");
+const newsModal = document.getElementById("newsModal");
+const byId = (id) => document.getElementById(id);
+const absUrl = (path) => new URL(path, document.baseURI).href;
+const toDate = (iso) => new Date(`${iso}T12:00:00-03:00`);
+const newsDate = (iso) => toDate(iso).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long" });
+const MONTHS = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const isVideo = (path) => /\.(mp4|webm|mov)$/i.test(path);
+const slug = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+let newsPosts = [];
+
+const stamp = (iso) => { const d = toDate(iso); return `<span class="n-stamp"><b>${String(d.getDate()).padStart(2, "0")}</b><small>${MONTHS[d.getMonth()]}</small></span>`; };
+const cover = (post) => post.fotos.find((f) => !isVideo(f)) || post.fotos[0];
+const bg = (post) => `<span class="n-bg" style="--img: url('${absUrl(cover(post))}')"></span>`;
+const play = (post) => (post.fotos.some(isVideo) ? '<span class="n-play" aria-label="Tiene video">▶</span>' : "");
+const count = (post) => {
+  const photos = post.fotos.filter((f) => !isVideo(f)).length;
+  return photos > 1 ? `<span class="n-count"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-2h6l2 2h3v12H4zm8 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>${photos} fotos</span>` : "";
+};
+const read = '<span class="n-read">Ver la novedad <i aria-hidden="true">→</i></span>';
+const item = (i, cls, inner) => `<button type="button" class="n-item n-anim ${cls}" data-i="${i}" style="--i:${i}">${inner}</button>`;
+
+// Diseño "revista": la última novedad grande y las anteriores en una lista al costado
+function renderNews() {
+  const [main, ...others] = newsPosts;
+  const row = (p, i) => item(i, "nr__row", `
+    <span class="nr__thumb">${bg(p)}${play(p)}</span>
+    <span class="nr__row-body">
+      <span class="n-tag">${esc(p.categoria)}</span>
+      <span class="nr__row-title">${esc(p.titulo)}</span>
+      <span class="n-date">${esc(newsDate(p.fecha))}</span>
+    </span>`);
+  newsGrid.innerHTML = `
+    <div class="nr">
+      ${item(0, "nr__feature", `${bg(main)}<span class="n-shade"></span>${play(main)}${count(main)}
+        <span class="nr__content">
+          ${stamp(main.fecha)}
+          <span class="nr__kicker">${esc(main.categoria)}</span>
+          <span class="nr__title">${esc(main.titulo)}</span>
+          <span class="nr__rest">${esc(main.texto)}</span>
+          ${read}
+        </span>`)}
+      ${others.length ? `<div class="nr__side">${others.slice(0, NEWS_FIRST - 1).map((p, k) => row(p, k + 1)).join("")}</div>` : ""}
+    </div>
+    ${others.length >= NEWS_FIRST ? `<div class="nr__more n-extra">${others.slice(NEWS_FIRST - 1).map((p, k) => row(p, k + NEWS_FIRST)).join("")}</div>` : ""}`;
+  newsGrid.classList.toggle("news--single", !others.length);
+  newsMore.hidden = !newsGrid.querySelector(".n-extra");
+}
+
+async function loadNews() {
+  const get = async (url) => {
+    try {
+      const res = await fetch(url, { cache: "no-cache" });
+      return res.ok ? await res.json() : [];
+    } catch { return []; }
+  };
+  let posts = await get(NEWS_URL);
+  const local = ["localhost", "127.0.0.1"].includes(location.hostname);
+  if (!posts.length && local) posts = await get(NEWS_SAMPLE_URL);
+  newsPosts = posts
+    .filter((p) => p.fecha && p.titulo && p.fotos?.length)
+    .map((p) => ({ ...p, categoria: p.categoria || "Novedades", texto: p.texto || "", id: p.id || `${p.fecha}-${slug(p.titulo)}` }))
+    .sort((a, b) => b.fecha.localeCompare(a.fecha));
+
+  const empty = !newsPosts.length;
+  newsSection.hidden = empty;
+  newsNavLink.hidden = empty;
+  if (empty) return;
+  renderNews();
+
+  // Si alguien abre un link compartido (cfcpn.com.ar/#novedad-...), se abre esa novedad
+  const shared = location.hash.startsWith("#novedad-") && newsPosts.findIndex((p) => `#novedad-${p.id}` === location.hash);
+  if (shared >= 0) { newsSection.scrollIntoView(); openNews(shared); }
+}
+
+newsGrid.addEventListener("click", (e) => {
+  const card = e.target.closest("[data-i]");
+  if (card) openNews(Number(card.dataset.i));
+});
+
+newsMore.addEventListener("click", () => {
+  newsGrid.classList.add("show-all");
+  newsMore.hidden = true;
+});
+
+// Las novedades aparecen con el mismo fundido que el resto cuando la sección entra en pantalla
+new IntersectionObserver((entries, obs) => {
+  if (!entries[0].isIntersecting) return;
+  newsGrid.classList.add("is-shown");
+  obs.disconnect();
+}, { threshold: 0.12 }).observe(newsGrid);
+
+// ---------- Ventana de cada novedad: galería de fotos, texto, compartir y pasar a otra ----------
+let newsOpen = 0;
+let photoOpen = 0;
+const gallery = byId("newsGallery");
+
+function showPhoto(index) {
+  const files = newsPosts[newsOpen].fotos;
+  photoOpen = (index + files.length) % files.length;
+  const file = files[photoOpen];
+  gallery.querySelector("video")?.pause();
+  gallery.style.setProperty("--img", `url('${absUrl(isVideo(file) ? cover(newsPosts[newsOpen]) : file)}')`);
+  byId("newsPhoto").innerHTML = isVideo(file)
+    ? `<video src="${esc(absUrl(file))}" poster="${esc(absUrl(cover(newsPosts[newsOpen])))}" controls playsinline preload="metadata"></video>`
+    : `<img src="${esc(absUrl(file))}" alt="Foto ${photoOpen + 1} de ${files.length}">`;
+  byId("newsPhotoCount").textContent = `${photoOpen + 1} / ${files.length}`;
+  byId("newsDots").querySelectorAll("button").forEach((d, i) => d.classList.toggle("is-on", i === photoOpen));
+  // Se precarga la foto siguiente para que pase sin esperar
+  const next = files[(photoOpen + 1) % files.length];
+  if (!isVideo(next)) new Image().src = absUrl(next);
+}
+
+function newsStep(button, index, label) {
+  const post = newsPosts[index];
+  button.hidden = !post;
+  if (!post) return;
+  button.dataset.target = index;
+  button.innerHTML = `<span class="news-modal__thumb" style="--img: url('${absUrl(cover(post))}')"></span>
+    <span class="news-modal__step-text"><small>${label}</small><span>${esc(post.titulo)}</span></span>`;
+}
+
+function openNews(index) {
+  const post = newsPosts[index];
+  if (!post) return;
+  newsOpen = index;
+
+  // Galería: flechas y puntitos solo si hay más de una foto
+  const many = post.fotos.length > 1;
+  gallery.classList.toggle("is-single", !many);
+  byId("newsDots").innerHTML = many && post.fotos.length <= 20
+    ? post.fotos.map((_, i) => `<button type="button" aria-label="Foto ${i + 1}" data-photo="${i}"></button>`).join("")
+    : "";
+  showPhoto(0);
+
+  byId("newsModalStamp").innerHTML = stamp(post.fecha);
+  byId("newsModalTag").textContent = post.categoria;
+  byId("newsModalDate").textContent = newsDate(post.fecha);
+  byId("newsModalTitle").textContent = post.titulo;
+  // Cada párrafo (separados por un renglón en blanco) va en su propio bloque
+  byId("newsModalText").innerHTML = post.texto.split(/\n\s*\n/).filter(Boolean).map((p) => `<p>${esc(p.trim())}</p>`).join("");
+
+  newsStep(byId("newsPrev"), index - 1, "← Más reciente");
+  newsStep(byId("newsNext"), index + 1, "Anterior →");
+
+  // Se reinicia la animación de entrada cada vez que cambia la novedad
+  newsModal.classList.remove("is-in");
+  void newsModal.offsetWidth;
+  newsModal.classList.add("is-in");
+  byId("newsModalBody").scrollTop = 0;
+  newsModal.scrollTop = 0;
+  if (!newsModal.open) newsModal.showModal();
+  history.replaceState(null, "", `#novedad-${post.id}`);
+}
+
+function closeNews() {
+  newsModal.close();
+}
+
+gallery.addEventListener("click", (e) => {
+  const arrow = e.target.closest("[data-move]");
+  const dot = e.target.closest("[data-photo]");
+  if (arrow) showPhoto(photoOpen + Number(arrow.dataset.move));
+  if (dot) showPhoto(Number(dot.dataset.photo));
+});
+
+// En el celular, las fotos se pasan deslizando el dedo
+let swipeX = null;
+gallery.addEventListener("touchstart", (e) => { swipeX = e.touches[0].clientX; }, { passive: true });
+gallery.addEventListener("touchend", (e) => {
+  if (swipeX === null) return;
+  const dx = e.changedTouches[0].clientX - swipeX;
+  if (Math.abs(dx) > 40 && newsPosts[newsOpen].fotos.length > 1) showPhoto(photoOpen + (dx < 0 ? 1 : -1));
+  swipeX = null;
+});
+
+newsModal.querySelector(".news-modal__nav").addEventListener("click", (e) => {
+  const step = e.target.closest("[data-target]");
+  if (step) openNews(Number(step.dataset.target));
+});
+
+// Con el teclado: las flechas pasan las fotos
+newsModal.addEventListener("keydown", (e) => {
+  if (e.target.closest("video")) return;
+  if (e.key === "ArrowLeft") showPhoto(photoOpen - 1);
+  if (e.key === "ArrowRight") showPhoto(photoOpen + 1);
+});
+
+// Botón Compartir: en el celular abre el menú del teléfono; si el navegador no lo tiene, copia el link
+byId("newsModalShare").addEventListener("click", async () => {
+  const post = newsPosts[newsOpen];
+  const url = `${location.origin}${location.pathname}#novedad-${post.id}`;
+  if (navigator.share) {
+    try { await navigator.share({ title: post.titulo, text: `${post.titulo} · Centro Familiar Cristiano para las Naciones`, url }); } catch {}
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    newsModal.append(toast); // la ventana tapa todo lo demás: el aviso tiene que ir adentro para verse
+    showToast("Link copiado. Ya lo podés pegar donde quieras.");
+  } catch {}
+});
+
+// Se cierra con la X, con Escape o tocando afuera del recuadro
+newsModal.addEventListener("click", (e) => { if (e.target === newsModal || e.target.closest("[data-close]")) closeNews(); });
+newsModal.addEventListener("close", () => {
+  gallery.querySelector("video")?.pause();
+  document.body.append(toast);
+  if (location.hash.startsWith("#novedad-")) history.replaceState(null, "", location.pathname + location.search);
+});
+
+loadNews();
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 // Qué elementos aparecen con fundido al bajar y cuántos segundos se espera entre uno y el siguiente del mismo grupo
 const animations = [
@@ -255,11 +481,17 @@ const LIVE_API = "https://cfcpn-en-vivo.dany1234491.workers.dev";
 const LIVE_CHECK_EVERY = 90e3;
 // Si el portero no responde, los botones se muestran igual los domingos de 19:20 a 22:00 (hora de Argentina)
 const LIVE_FALLBACK = { day: 0, from: 19 * 60 + 20, to: 22 * 60 };
+// Reuniones especiales, solo ese día (también hora de Argentina)
+const LIVE_EXTRA = [
+  { date: "2026-10-09", from: 20 * 60, to: 23 * 60 }, // Jóvenes con Carlos Carpintieri
+];
 const liveLinks = document.querySelectorAll("[data-live-link]");
 
 function inFallbackWindow() {
   const now = new Date(Date.now() + AR_OFFSET);
   const mins = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const today = now.toISOString().slice(0, 10);
+  if (LIVE_EXTRA.some((w) => w.date === today && mins >= w.from && mins < w.to)) return true;
   return now.getUTCDay() === LIVE_FALLBACK.day && mins >= LIVE_FALLBACK.from && mins < LIVE_FALLBACK.to;
 }
 

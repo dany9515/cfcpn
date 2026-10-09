@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=6">
+  <link rel="stylesheet" href="assets/css/styles.css?v=13">
 </head>
 <body>
 
@@ -64,6 +64,7 @@
       </button>
       <nav class="nav" id="nav">
         <a href="#inicio">Inicio</a>
+        <a href="#novedades" id="navNovedades" hidden>Novedades</a>
         <a href="#nosotros">Nosotros</a>
         <a href="#sedes">Dónde estamos</a>
         <a href="#radio">Radio</a>
@@ -146,6 +147,52 @@
           <span class="schedule__name">Reunión general</span>
         </article>
       </div>
+    </section>
+
+    <!-- NOVEDADES: resúmenes de reuniones y eventos, cargados a mano en novedades.json (ver main.js).
+         Mientras no haya ninguna, la sección y su link del menú quedan escondidos. -->
+    <section class="section section--dark" id="novedades" hidden>
+      <div class="container">
+        <header class="section__head">
+          <p class="eyebrow">Novedades</p>
+          <h2>Lo que vivimos <em>juntos</em></h2>
+          <p>Resúmenes de nuestras reuniones y de cada evento de la iglesia.</p>
+        </header>
+        <div class="news" id="news"></div>
+        <div class="news__actions">
+          <button class="btn btn--light" id="newsMore" type="button" hidden>Ver más novedades</button>
+          <a class="btn btn--ghost" href="https://www.facebook.com/mcfcpn" target="_blank" rel="noopener">Seguinos en Facebook</a>
+        </div>
+      </div>
+      <!-- Ventana de cada novedad: galería de fotos a la izquierda y texto a la derecha, con el estilo de la revista -->
+      <dialog class="news-modal" id="newsModal" aria-labelledby="newsModalTitle">
+        <button class="news-modal__close" type="button" aria-label="Cerrar" data-close>✕</button>
+        <div class="news-modal__media" id="newsGallery">
+          <div class="news-modal__photo" id="newsPhoto"></div>
+          <button type="button" class="news-modal__arrow news-modal__arrow--prev" data-move="-1" aria-label="Foto anterior">‹</button>
+          <button type="button" class="news-modal__arrow news-modal__arrow--next" data-move="1" aria-label="Foto siguiente">›</button>
+          <span class="news-modal__photo-count" id="newsPhotoCount"></span>
+          <div class="news-modal__dots" id="newsDots"></div>
+        </div>
+        <article class="news-modal__body" id="newsModalBody">
+          <div class="news-modal__top">
+            <span id="newsModalStamp"></span>
+            <span class="news-modal__meta"><span class="nr__kicker" id="newsModalTag"></span><span class="news-modal__date" id="newsModalDate"></span></span>
+          </div>
+          <h3 class="news-modal__title" id="newsModalTitle"></h3>
+          <div class="news-modal__text" id="newsModalText"></div>
+          <div class="news-modal__actions">
+            <!-- Abre el menú "Compartir" del celular (WhatsApp, Instagram, etc.); en la compu copia el link -->
+            <button class="btn btn--light btn--sm" id="newsModalShare" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16a3 3 0 0 0-2.4 1.2l-6.7-3.4a3 3 0 0 0 0-1.6l6.7-3.4A3 3 0 1 0 15 7l-6.7 3.4a3 3 0 1 0 0 3.2L15 17a3 3 0 1 0 3-1z"/></svg>Compartir
+            </button>
+          </div>
+          <nav class="news-modal__nav" aria-label="Otras novedades">
+            <button type="button" class="news-modal__step" id="newsPrev"></button>
+            <button type="button" class="news-modal__step news-modal__step--next" id="newsNext"></button>
+          </nav>
+        </article>
+      </dialog>
     </section>
 
     <!-- NOSOTROS -->
@@ -407,6 +454,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/main.js?v=5"></script>
+  <script src="assets/js/main.js?v=11"></script>
 </body>
 </html>
