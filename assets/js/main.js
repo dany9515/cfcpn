@@ -483,7 +483,6 @@ const LIVE_CHECK_EVERY = 90e3;
 const LIVE_FALLBACK = { day: 0, from: 19 * 60 + 20, to: 22 * 60 };
 // Reuniones especiales, solo ese día (también hora de Argentina)
 const LIVE_EXTRA = [
-  { date: "2026-10-09", from: 20 * 60, to: 23 * 60 }, // Jóvenes con Carlos Carpintieri
 ];
 const liveLinks = document.querySelectorAll("[data-live-link]");
 
