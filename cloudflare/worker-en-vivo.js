@@ -43,9 +43,22 @@ async function checkYouTube() {
     const html = await res.text();
     // Si hay vivo, la página /live apunta al video; si no, apunta al canal
     const video = html.match(/<link rel="canonical" href="https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})"/);
-    const live = Boolean(video) && html.includes('"isLive":true') && !html.includes('"isUpcoming":true');
-    return { live, url: live ? `https://www.youtube.com/watch?v=${video[1]}` : null };
-  } catch {
-    return { live: false, url: null, error: true };
+    const channel = html.includes(`<link rel="canonical" href="https://www.youtube.com/channel/${CHANNEL_ID}"`);
+    const info = {
+      status: res.status,
+      finalUrl: res.url,
+      title: (html.match(/<title>([^<]*)/) || [])[1] || null,
+      length: html.length,
+      canonical: (html.match(/<link rel="canonical" href="([^"]*)"/) || [])[1] || null,
+      isLive: html.includes('"isLive":true'),
+      isUpcoming: html.includes('"isUpcoming":true'),
+    };
+    // Si YouTube no mostró ni el video ni el canal (pantalla de cookies, de "no sos un robot", etc.), se avisa
+    // como error: así el sitio usa el horario de respaldo en vez de esconder los botones
+    if (!video && !channel) return { live: false, url: null, error: true, info };
+    const live = Boolean(video) && info.isLive && !info.isUpcoming;
+    return { live, url: live ? `https://www.youtube.com/watch?v=${video[1]}` : null, info };
+  } catch (err) {
+    return { live: false, url: null, error: true, info: { message: String(err) } };
   }
 }
