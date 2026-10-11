@@ -18,12 +18,17 @@ navToggle.addEventListener("click", () => {
   navToggle.setAttribute("aria-expanded", open);
 });
 
-nav.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("is-open");
-    navToggle.classList.remove("is-open");
-    navToggle.setAttribute("aria-expanded", "false");
-  });
+function closeNav() {
+  nav.classList.remove("is-open");
+  navToggle.classList.remove("is-open");
+  navToggle.setAttribute("aria-expanded", "false");
+}
+
+nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeNav));
+
+// Tocar fuera del menú también lo cierra
+document.addEventListener("click", (e) => {
+  if (nav.classList.contains("is-open") && !header.contains(e.target)) closeNav();
 });
 
 function showToast(message) {
@@ -259,6 +264,11 @@ newsModal.addEventListener("close", () => {
 
 loadNews();
 
+// Separadores entre secciones: línea con brillo y una luz que la recorre (se agregan solos antes de cada sección)
+document.querySelectorAll("main > .section").forEach((section) => {
+  section.insertAdjacentHTML("beforebegin", '<div class="divider" aria-hidden="true"><span class="divider__line"></span></div>');
+});
+
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 // Qué elementos aparecen con fundido al bajar y cuántos segundos se espera entre uno y el siguiente del mismo grupo
 const animations = [
@@ -272,6 +282,7 @@ const animations = [
   [".radio, .photo-bg", 0],
   [".give__card, .give__alert", 0.15],
   [".form", 0],
+  [".divider", 0],
 ];
 
 if (!reduceMotion) {

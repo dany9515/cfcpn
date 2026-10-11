@@ -25,6 +25,10 @@
 
 /* Al saltar desde el menú, parte del margen de arriba de la sección queda debajo del menú (72px), así el título no queda tan abajo */
 html { scroll-behavior: smooth; scroll-padding-top: 30px; }
+/* En la compu, todo el sitio un poco más chico para que se vea más elegante */
+@media (min-width: 961px) { html { font-size: 85%; } }
+/* En celular y tablet, un poco más chico */
+@media (max-width: 960px) { html { font-size: 92%; } }
 
 body {
   margin: 0;
@@ -223,7 +227,7 @@ p { margin: 0 0 1em; }
 .countdown__live:hover { background: rgba(255,77,77,.24); }
 
 /* ---------- Horarios ---------- */
-.schedule { margin-top: -3.5rem; position: relative; z-index: 2; }
+.schedule { margin-top: -3.5rem; padding-bottom: clamp(2.5rem, 5vw, 4rem); position: relative; z-index: 2; }
 .schedule__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 .schedule__item {
   background: var(--white); border-radius: var(--radius); padding: 1.6rem 1.8rem; box-shadow: var(--shadow);
@@ -414,6 +418,34 @@ p { margin: 0 0 1em; }
 
 /* ---------- Secciones ---------- */
 .section { padding-block: clamp(4.5rem, 9vw, 7rem); }
+
+/* Separador entre secciones: queda montado sobre el borde, mitad en cada sección */
+.divider {
+  position: relative; z-index: 5; height: 46px; margin-block: -23px;
+  display: flex; align-items: center; justify-content: center; pointer-events: none;
+}
+/* Si la sección siguiente está escondida, o es Radio (que ya tiene su propia línea), no va separador */
+.divider:has(+ .section[hidden]), .divider:has(+ .section--photo) { display: none; }
+.divider__line {
+  position: relative; overflow: hidden; width: min(1160px, 100% - 2.5rem); height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--blue-500) 18%, var(--sky-200) 50%, var(--blue-500) 82%, transparent);
+  box-shadow: 0 0 14px rgba(59,130,246,.55);
+}
+/* La luz que recorre la línea de punta a punta cada tanto */
+.divider__line::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -25%; width: 22%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+  animation: divider-light 7s ease-in-out infinite;
+}
+@keyframes divider-light {
+  0% { left: -25%; }
+  45%, 100% { left: 105%; }
+}
+/* Al aparecer, la línea se dibuja desde el centro hacia los costados */
+.js-anim .divider[data-anim] { opacity: 1; transform: none; }
+.js-anim .divider[data-anim] .divider__line { transform: scaleX(0); opacity: 0; transition: transform 1.8s var(--ease), opacity 0.6s ease; }
+.js-anim .divider.is-visible .divider__line { transform: scaleX(1); opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .divider__line::after { animation: none; display: none; } }
 /* Contacto es la última sección: ocupa al menos toda la pantalla para que el salto desde el menú llegue hasta ella */
 /* La portada no tiene ese margen: debe quedar justo debajo del menú */
 #inicio { scroll-margin-top: 42px; }
@@ -736,7 +768,8 @@ a.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(-
 @media (max-width: 960px) {
   .nav-toggle { display: block; }
   .nav {
-    position: fixed; inset: 72px 0 auto 0; flex-direction: column; align-items: stretch; gap: 0;
+    /* Se abre siempre justo debajo de la barra del logo, así nunca tapa la X */
+    position: absolute; inset: 100% 0 auto 0; flex-direction: column; align-items: stretch; gap: 0;
     background: var(--navy-900); padding: 1rem 1.25rem 1.5rem; max-height: calc(100vh - 72px); overflow-y: auto;
     transform: translateY(-8px); opacity: 0; visibility: hidden;
     transition: transform 0.35s var(--ease), opacity 0.25s, visibility 0.25s;
@@ -744,7 +777,7 @@ a.sede:hover { translate: 0 -5px; box-shadow: var(--shadow); border-color: var(-
   .nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
   .nav > a { padding: 0.9rem 0; border-bottom: 1px solid rgba(255,255,255,.08); display: block; }
   .nav > a::after { display: none; }
-  .nav .btn { margin-top: 1rem; }
+  .nav > a.btn { margin-top: 1rem; display: flex; border-bottom: 0; }
   .nav-toggle.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
   .nav-toggle.is-open span:nth-child(2) { opacity: 0; }
   .nav-toggle.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
