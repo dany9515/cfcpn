@@ -495,12 +495,17 @@ const LIVE_FALLBACK = { day: 0, from: 19 * 60 + 20, to: 22 * 60 };
 // Reuniones especiales, solo ese día (también hora de Argentina)
 const LIVE_EXTRA = [
 ];
+// Días en que el respaldo se corta antes (por ejemplo, si la reunión terminó temprano)
+const LIVE_SKIP = [
+  { date: "2026-10-11", from: 21 * 60 },
+];
 const liveLinks = document.querySelectorAll("[data-live-link]");
 
 function inFallbackWindow() {
   const now = new Date(Date.now() + AR_OFFSET);
   const mins = now.getUTCHours() * 60 + now.getUTCMinutes();
   const today = now.toISOString().slice(0, 10);
+  if (LIVE_SKIP.some((w) => w.date === today && mins >= w.from)) return false;
   if (LIVE_EXTRA.some((w) => w.date === today && mins >= w.from && mins < w.to)) return true;
   return now.getUTCDay() === LIVE_FALLBACK.day && mins >= LIVE_FALLBACK.from && mins < LIVE_FALLBACK.to;
 }
