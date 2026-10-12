@@ -431,6 +431,17 @@ const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Vierne
 // Argentina es UTC-3 todo el año: se trabaja con la hora local de la iglesia aunque el visitante esté en otro país
 const AR_OFFSET = -3 * 3600e3;
 const DAY_MS = 86400e3;
+// Días en que la reunión terminó antes: desde esa hora se apagan los botones del vivo y el "Estamos reunidos ahora"
+const LIVE_SKIP = [
+  { date: "2026-10-11", from: 21 * 60 },
+];
+
+function skippedNow() {
+  const now = new Date(Date.now() + AR_OFFSET);
+  const mins = now.getUTCHours() * 60 + now.getUTCMinutes();
+  const today = now.toISOString().slice(0, 10);
+  return LIVE_SKIP.some((w) => w.date === today && mins >= w.from);
+}
 
 const cd = {
   label: document.getElementById("cdLabel"),
@@ -451,7 +462,7 @@ function nextMeeting() {
 
   return MEETINGS.map((m) => {
     let start = midnight + ((m.day - today.getUTCDay() + 7) % 7) * DAY_MS + (m.hour * 60 + m.min) * 60e3;
-    if (start + m.duration * 60e3 <= now) start += 7 * DAY_MS;
+    if (start + m.duration * 60e3 <= now || (start <= now && skippedNow())) start += 7 * DAY_MS;
     return { ...m, start, now, ongoing: start <= now };
   }).sort((a, b) => b.ongoing - a.ongoing || a.start - b.start)[0];
 }
@@ -495,17 +506,13 @@ const LIVE_FALLBACK = { day: 0, from: 19 * 60 + 20, to: 22 * 60 };
 // Reuniones especiales, solo ese día (también hora de Argentina)
 const LIVE_EXTRA = [
 ];
-// Días en que el respaldo se corta antes (por ejemplo, si la reunión terminó temprano)
-const LIVE_SKIP = [
-  { date: "2026-10-11", from: 21 * 60 },
-];
 const liveLinks = document.querySelectorAll("[data-live-link]");
 
 function inFallbackWindow() {
   const now = new Date(Date.now() + AR_OFFSET);
   const mins = now.getUTCHours() * 60 + now.getUTCMinutes();
   const today = now.toISOString().slice(0, 10);
-  if (LIVE_SKIP.some((w) => w.date === today && mins >= w.from)) return false;
+  if (skippedNow()) return false;
   if (LIVE_EXTRA.some((w) => w.date === today && mins >= w.from && mins < w.to)) return true;
   return now.getUTCDay() === LIVE_FALLBACK.day && mins >= LIVE_FALLBACK.from && mins < LIVE_FALLBACK.to;
 }
