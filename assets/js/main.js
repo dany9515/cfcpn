@@ -469,10 +469,61 @@ function nextMeeting() {
 
 const pad = (n) => String(n).padStart(2, "0");
 
+// Cada número del contador va en una "ventanita": el que cambia sube y el nuevo entra desde abajo (2026-10-15)
+["days", "hours", "mins", "secs"].forEach((k) => {
+  const el = cd[k];
+  el.classList.add("roll");
+  el.innerHTML = `<span>${el.textContent}</span>`;
+});
+function setRoll(el, value) {
+  value = String(value);
+  const current = el.lastElementChild;
+  if (current.textContent === value) return;
+  // Pestaña escondida o primera vez: sin animación (los timers se atrasan y se juntarían)
+  if (document.hidden || !el.dataset.ready) { current.textContent = value; el.dataset.ready = "1"; return; }
+  [...el.children].slice(0, -1).forEach((old) => old.remove());
+  const next = document.createElement("span");
+  next.textContent = value;
+  next.className = "is-enter";
+  el.appendChild(next);
+  requestAnimationFrame(() => requestAnimationFrame(() => { next.className = ""; current.className = "is-leave"; }));
+  setTimeout(() => current.remove(), 320);
+}
+
+// El domingo, la tarjeta de la reunión se marca y dice cuánto falta (misma cuenta que el contador, para que nunca digan cosas distintas)
+const sunday = {
+  card: document.querySelector(".schedule__item--main"),
+  badge: document.getElementById("sundaySoon"),
+  text: document.getElementById("sundaySoonText"),
+};
+const SUNDAY_SOON = 8 * 3600e3;   // desde 8 horas antes
+function updateSunday(m) {
+  if (!sunday.card || !sunday.badge) return;
+  const left = m.start - m.now;
+  const sameDay = new Date(m.start).getUTCDay() === new Date(m.now).getUTCDay();
+  let text = "";
+  if (m.ongoing) text = "Ahora · Estamos reunidos";
+  else if (sameDay && left <= SUNDAY_SOON) {
+    const h = Math.floor(left / 3600e3), min = Math.ceil((left % 3600e3) / 60e3);
+    text = `Hoy · empieza en ${h ? `${h} h ` : ""}${min} min`;
+  }
+  if (text) {
+    if (sunday.text.textContent !== text) sunday.text.textContent = text;
+    if (sunday.badge.hidden) {
+      sunday.badge.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => sunday.card.classList.add("is-soon")));
+    }
+  } else if (!sunday.badge.hidden) {
+    sunday.card.classList.remove("is-soon");
+    sunday.badge.hidden = true;
+  }
+}
+
 function updateCountdown() {
   const m = nextMeeting();
   const time = `${pad(m.hour)}:${pad(m.min)} hs`;
   cd.name.textContent = m.name;
+  updateSunday(m);
 
   if (m.ongoing) {
     cd.label.textContent = "En este momento";
@@ -488,10 +539,10 @@ function updateCountdown() {
   cd.when.textContent = `${isToday ? "Hoy" : DAY_NAMES[m.day]} · ${time}`;
   cd.clock.hidden = false;
   cd.live.hidden = true;
-  cd.days.textContent = Math.floor(diff / DAY_MS);
-  cd.hours.textContent = pad(Math.floor((diff % DAY_MS) / 3600e3));
-  cd.mins.textContent = pad(Math.floor((diff % 3600e3) / 60e3));
-  cd.secs.textContent = pad(Math.floor((diff % 60e3) / 1e3));
+  setRoll(cd.days, Math.floor(diff / DAY_MS));
+  setRoll(cd.hours, pad(Math.floor((diff % DAY_MS) / 3600e3)));
+  setRoll(cd.mins, pad(Math.floor((diff % 3600e3) / 60e3)));
+  setRoll(cd.secs, pad(Math.floor((diff % 60e3) / 1e3)));
 }
 
 updateCountdown();
@@ -630,15 +681,48 @@ if ("mediaSession" in navigator) {
   navigator.mediaSession.setActionHandler("stop", stopRadio);
 }
 
+// Copiar el alias o el CBU: el número se pone verde y el texto de abajo dice qué se copió (2026-10-15)
+const giveHint = document.querySelector(".give__hint");
+const giveHintText = giveHint ? giveHint.innerHTML : "";
+let copyTimer;
+function setHint(html, copied) {
+  if (!giveHint) return;
+  giveHint.innerHTML = html;
+  giveHint.classList.toggle("is-copied", copied);
+  giveHint.classList.remove("is-swap");
+  void giveHint.offsetWidth;   // para que el cambio se vea aunque se toque dos veces seguidas
+  giveHint.classList.add("is-swap");
+}
 document.querySelectorAll(".copy").forEach((el) => {
   el.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(el.dataset.copy);
-      showToast("¡Copiado!");
+      document.querySelectorAll(".copy.is-copied").forEach((c) => c.classList.remove("is-copied"));
+      el.classList.add("is-copied");
+      const what = el.dataset.copy.length > 15 ? "el CBU" : "el alias";
+      setHint(`<svg viewBox="0 0 24 24" aria-hidden="true"><path class="copied__tick" d="M5 12.5l4.5 4.5L19 7.5"/></svg>Listo, copiaste ${what}.`, true);
+      toast.textContent = `Copiaste ${what}`;   // lo anuncia el lector de pantalla, sin mostrar el cartel
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => { el.classList.remove("is-copied"); setHint(giveHintText, false); }, 3500);
     } catch {
       showToast("No se pudo copiar, seleccionalo manualmente");
     }
   });
+});
+
+const prayerDone = document.getElementById("prayerDone");
+function swapPrayer(out, inn) {
+  out.classList.replace("is-in", "is-out");
+  out.inert = true;
+  inn.inert = false;
+  inn.classList.remove("is-out");
+  void inn.offsetWidth;
+  inn.classList.add("is-in");
+}
+document.getElementById("prayerAgain").addEventListener("click", () => {
+  const form = document.getElementById("prayerForm");
+  swapPrayer(prayerDone, form);
+  form.querySelector("input[name=nombre]").focus({ preventScroll: true });
 });
 
 document.getElementById("prayerForm").addEventListener("submit", async (event) => {
@@ -660,8 +744,12 @@ document.getElementById("prayerForm").addEventListener("submit", async (event) =
     });
     const result = await res.json();
     if (!res.ok || String(result.success) !== "true") throw new Error(result.message);
+    // En vez de un cartel que dura unos segundos, el formulario se convierte en la confirmación (2026-10-15)
+    const name = String(data.get("nombre") || "").trim().split(/\s+/)[0];
+    document.getElementById("prayerDoneTitle").textContent = name ? `¡Gracias, ${name}!` : "¡Gracias!";
     form.reset();
-    showToast("¡Gracias! Recibimos tu mensaje y vamos a orar por vos");
+    swapPrayer(form, prayerDone);
+    document.getElementById("prayerAgain").focus({ preventScroll: true });
   } catch {
     showToast("No se pudo enviar. Probá de nuevo en un momento");
   } finally {

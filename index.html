@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=15">
+  <link rel="stylesheet" href="assets/css/styles.css?v=16">
 </head>
 <body>
 
@@ -145,6 +145,8 @@
           <span class="schedule__day">Domingo</span>
           <span class="schedule__time">19:00 hs</span>
           <span class="schedule__name">Reunión general</span>
+          <!-- El domingo, unas horas antes y durante la reunión (lo maneja main.js con la misma cuenta del contador) -->
+          <span class="schedule__soon" id="sundaySoon" hidden><i></i><span id="sundaySoonText"></span></span>
         </article>
       </div>
     </section>
@@ -361,8 +363,8 @@
             <h3>Transferencia bancaria</h3>
             <dl>
               <dt>Titular</dt><dd>Min. Centro Familiar Cristiano Para Las</dd>
-              <dt>Alias</dt><dd class="copy" data-copy="naciones460">naciones460</dd>
-              <dt>CBU</dt><dd class="copy" data-copy="0110653040065305054880">0110653040065305054880</dd>
+              <dt>Alias</dt><dd><button type="button" class="copy" data-copy="naciones460">naciones460</button></dd>
+              <dt>CBU</dt><dd><button type="button" class="copy" data-copy="0110653040065305054880">0110653040065305054880</button></dd>
               <dt>CUIT</dt><dd>30-70978240-8</dd>
             </dl>
             <p class="give__hint">Tocá el CBU o el alias para copiarlo.</p>
@@ -390,7 +392,9 @@
           <h2>No estás <em>solo</em></h2>
           <p>Contanos por qué querés que oremos. Nuestro equipo de intercesión va a orar por vos. Tu mensaje es privado: solo lo lee nuestro equipo.</p>
         </div>
-        <form class="form" id="prayerForm">
+        <!-- El formulario y su confirmación ocupan el mismo lugar: al enviar, uno se funde en el otro -->
+        <div class="pray">
+        <form class="form pray__pane is-in" id="prayerForm">
           <label>Nombre
             <input type="text" name="nombre" required placeholder="Tu nombre">
           </label>
@@ -409,6 +413,13 @@
           <input type="text" name="botcheck" class="form__trap" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" class="btn btn--primary">Enviar mensaje</button>
         </form>
+        <div class="form pray__pane pray__done is-out" id="prayerDone" role="status" aria-live="polite" inert>
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle class="pray__ring" cx="32" cy="32" r="29"/><path class="pray__check" d="M20 33l8 8 16-17"/></svg>
+          <h3 id="prayerDoneTitle">¡Gracias!</h3>
+          <p>Recibimos tu mensaje y vamos a orar por vos.</p>
+          <button type="button" class="pray__again" id="prayerAgain">Enviar otro mensaje</button>
+        </div>
+        </div>
       </div>
     </section>
 
@@ -454,6 +465,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/js/main.js?v=16"></script>
+  <script src="assets/js/main.js?v=17"></script>
 </body>
 </html>
