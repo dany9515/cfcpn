@@ -347,8 +347,9 @@ p { margin: 0 0 1em; }
   filter: blur(28px) brightness(0.45) saturate(1.2);
 }
 .news-modal__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 70%, rgba(10,28,63,.55)); pointer-events: none; }
-.news-modal__photo { position: absolute; inset: 0; display: grid; place-items: center; }
-.news-modal__photo img, .news-modal__photo video { position: relative; width: 100%; height: 100%; object-fit: contain; display: block; animation: photo-in 0.5s ease both; }
+/* La foto va fija sobre todo el recuadro (sin grilla): en el iPhone, la grilla corría las fotos verticales hacia abajo y las cortaba */
+.news-modal__photo { position: absolute; inset: 0; }
+.news-modal__photo img, .news-modal__photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; animation: photo-in 0.5s ease both; }
 @keyframes photo-in { from { opacity: 0; } }
 /* Galería: flechas a los costados, puntitos abajo y el número de foto */
 .news-modal__arrow {
